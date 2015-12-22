@@ -1,7 +1,7 @@
 # env
 
 PHP extension that parses INI file with environment variables on module startup
-and populates `$_SERVER` and `$_ENV` with this information.
+and populates `getenv()`, `$_SERVER` and `$_ENV` with this information.
 
 This allows you to easily propagate configuration values to *all* PHP executions,
 following the [12factor app on Config](http://12factor.net/config).
