@@ -51,7 +51,6 @@ ZEND_END_MODULE_GLOBALS(env)
 
 #endif	/* PHP_ENV_H */
 
-
 /*
  * Local variables:
  * tab-width: 4
