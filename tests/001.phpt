@@ -4,7 +4,9 @@ Check for env presence
 <?php if (!extension_loaded("env")) print "skip"; ?>
 --FILE--
 <?php 
-echo "env extension is available";
+echo "env extension is available\n";
+echo ini_get("env.file") . "\n";
 ?>
 --EXPECT--
 env extension is available
+/etc/php/.env
