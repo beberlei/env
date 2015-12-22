@@ -6,6 +6,10 @@ and populates `$_SERVER` and `$_ENV` with this information.
 This allows you to easily propagate configuration values to *all* PHP executions,
 following the [12factor app on Config](http://12factor.net/config).
 
+Settings are loaded once, during PHP module startup. There is no additional
+file parsing necessary during requests, config variables are loaded from a
+persistent zval storage that is global between all requests.
+
 ## Installation
 
 Regular PHP extension installation procedure:
