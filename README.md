@@ -21,3 +21,8 @@ You configure a global configuration file that is used for all invocations of
 PHP through the CLI or any other SAPI (Apache, FPM) for every request.
 
     env.file=/etc/php5/.env
+
+## Credits
+
+Inspiration and parts of the code are taken from laruences
+[yaconf](https://pecl.php.net/package/yaconf) extension.
