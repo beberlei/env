@@ -181,11 +181,10 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	if (value == NULL) {
 		return;
 	}
+
 	if (callback_type == ZEND_INI_PARSER_ENTRY) {
 		php_env_zval_persistent(value, &rv);
 		php_env_symtable_update(Z_ARRVAL_P(arr), php_env_str_persistent(Z_STRVAL_P(key), Z_STRLEN_P(key)), &rv);
-	} else if (callback_type == ZEND_INI_PARSER_POP_ENTRY) {
-	} else if (callback_type == ZEND_INI_PARSER_SECTION) {
 	}
 }
 
@@ -238,6 +237,11 @@ PHP_MINIT_FUNCTION(env)
 PHP_MSHUTDOWN_FUNCTION(env)
 {
 	UNREGISTER_INI_ENTRIES();
+
+	if (env_container) {
+		php_env_hash_destroy(env_container);
+	}
+
 	return SUCCESS;
 }
 /* }}} */
@@ -256,6 +260,7 @@ PHP_RINIT_FUNCTION(env)
 			if (key) {
 				var = php_env_concat_env(ZSTR_VAL(key), ZSTR_LEN(key), Z_STRVAL_P(element), Z_STRLEN_P(element));
 				putenv(ZSTR_VAL(var));
+				//zend_string_release(var);
 			}
 		} ZEND_HASH_FOREACH_END();
 	}
