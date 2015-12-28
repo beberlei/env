@@ -1,5 +1,7 @@
 # env
 
+[![Build Status](https://travis-ci.org/beberlei/env.svg)](https://travis-ci.org/beberlei/env)
+
 PHP extension that parses INI file with environment variables on module startup
 and populates `getenv()`, `$_SERVER` and `$_ENV` with this information.
 
