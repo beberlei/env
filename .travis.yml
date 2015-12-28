@@ -1,0 +1,25 @@
+language: php
+
+notifications:
+  email: false
+
+sudo: false
+
+php:
+  - 5.6
+  - 5.5
+  - 7.0
+
+env:
+  global:
+    - NO_INTERACTION=1
+
+before_script:
+  - phpize
+  - ./configure 
+  - make
+
+script: REPORT_EXIT_STATUS=1 php run-tests.php -p `which php` --show-diff -d extension=`pwd`/.libs/env.so -q
+
+after_failure: "cat tests/*.diff"
+
