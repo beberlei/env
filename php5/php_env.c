@@ -78,7 +78,7 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 }
 
-int php_env_module_init() {
+int php_env_module_init(TSRMLS_D) {
 	int ndir = 255;
 	uint32_t i;
 	unsigned char c;

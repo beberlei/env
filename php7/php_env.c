@@ -23,7 +23,7 @@ static void php_env_hash_init(zval *zv, size_t size) /* {{{ */ {
 	ZVAL_ARR(zv, ht);
 	Z_ADDREF_P(zv);
 	Z_TYPE_FLAGS_P(zv) = IS_TYPE_IMMUTABLE;
-} 
+}
 
 static void php_env_hash_destroy(HashTable *ht) /* {{{ */ {
 	zend_string *key;
@@ -70,7 +70,7 @@ static zend_string* php_env_str_persistent(char *str, size_t len) /* {{{ */ {
 	return key;
 }
 /* }}} */
-	
+
 static void php_env_hash_copy(HashTable *target, HashTable *source) /* {{{ */ {
 	zend_string *key;
 	zend_long idx;
@@ -123,7 +123,7 @@ zend_string *php_env_concat3(char *str1, size_t str1_len, char *str2, size_t str
 
 zend_string *php_env_concat_env(char *name1, size_t name1_len, char *name2, size_t name2_len) {
 	return php_env_concat3(name1, name1_len, "=", 1, name2, name2_len);
-}    
+}
 
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, void *arg) /* {{{ */ {
 	zval *arr = (zval *)arg;
@@ -146,7 +146,7 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 }
 
-int php_env_module_init() {
+int php_env_module_init(TSRMLS_D) {
 	zval result;
 	int ndir = 255;
 	uint32_t i;
