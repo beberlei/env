@@ -94,12 +94,12 @@ int php_env_module_init(TSRMLS_D) {
 			zend_hash_init(env_container, 255, NULL, NULL, 1);
 
 			if (zend_parse_ini_file(&fh, 0, 0, (zend_ini_parser_cb_t)php_env_ini_parser_cb, env_container TSRMLS_CC) == FAILURE || ENV_G(parse_err)) {
-				if (!ENV_G(parse_err)) {
-					php_error(E_WARNING, "Parsing '%s' failed", ENV_G(file));
+				if (ENV_G(parse_err)) {
+					php_error(E_WARNING, "env: parsing '%s' failed", ENV_G(file));
 				}
 				ENV_G(parse_err) = 0;
 				php_env_hash_destroy(env_container);
-				return FAILURE;
+				return SUCCESS;
 			}
 		}
 	}

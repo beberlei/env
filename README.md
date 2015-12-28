@@ -12,7 +12,8 @@ Settings are loaded once, during PHP module startup. There is no additional
 file parsing necessary during requests, config variables are loaded from a
 persistent zval storage that is global between all requests.
 
-**EXPERIMENTAL** This extension is not tested in production yet. It works with PHP 5.6 and PHP 7.
+**EXPERIMENTAL** This extension is not tested in production yet. It currently
+works with PHP 5.5, 5.6 and PHP 7 on Non-ZTS builds of PHP.
 
 ## Installation
 

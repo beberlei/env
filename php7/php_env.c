@@ -143,6 +143,8 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	if (callback_type == ZEND_INI_PARSER_ENTRY) {
 		php_env_zval_persistent(value, &rv);
 		php_env_symtable_update(Z_ARRVAL_P(arr), php_env_str_persistent(Z_STRVAL_P(key), Z_STRLEN_P(key)), &rv);
+	} else {
+		ENV_G(parse_err) = 1;
 	}
 }
 
@@ -166,12 +168,14 @@ int php_env_module_init(TSRMLS_D) {
 
 				if (zend_parse_ini_file(&fh, 0, 0 /* ZEND_INI_SCANNER_NORMAL */,
 							php_env_ini_parser_cb, (void *)&result) == FAILURE || ENV_G(parse_err)) {
-					if (!ENV_G(parse_err)) {
-						php_error(E_WARNING, "Parsing '%s' failed", ENV_G(file));
+					if (ENV_G(parse_err)) {
+						php_error(E_WARNING, "env: parsing '%s' failed", ENV_G(file));
 					}
+
 					ENV_G(parse_err) = 0;
 					php_env_hash_destroy(Z_ARRVAL(result));
-					return FAILURE;
+
+					return SUCCESS;
 				}
 
 				env_container = Z_ARRVAL(result);
