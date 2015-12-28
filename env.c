@@ -56,7 +56,7 @@ PHP_MINIT_FUNCTION(env)
 {
 	REGISTER_INI_ENTRIES();
 
-	return php_env_module_init();
+	return php_env_module_init(TSRMLS_C);
 }
 /* }}} */
 
