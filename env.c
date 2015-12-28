@@ -66,8 +66,6 @@ PHP_MSHUTDOWN_FUNCTION(env)
 {
 	UNREGISTER_INI_ENTRIES();
 
-	php_env_module_shutdown();
-
 	return SUCCESS;
 }
 /* }}} */
@@ -77,8 +75,6 @@ PHP_MSHUTDOWN_FUNCTION(env)
  */
 PHP_RINIT_FUNCTION(env)
 {
-	php_env_request_init();
-
 	return SUCCESS;
 }
 /* }}} */
