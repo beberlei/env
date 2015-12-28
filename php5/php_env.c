@@ -62,6 +62,8 @@ static zval* php_env_zval_persistent(zval *zv) /* {{{ */ {
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, HashTable *arg) /* {{{ */ {
 	zval *rv;
 
+	TSRMLS_FETCH();
+
 	if (ENV_G(parse_err)) {
 		return;
 	}
