@@ -8,9 +8,5 @@ variables_order=EGPCS
 --FILE--
 <?php
 echo getenv("FOO") . "\n";
-echo $_SERVER['FOO'] . "\n";
-echo $_ENV['FOO'] . "\n";
 --EXPECT--
-BAR
-BAR
 BAR
