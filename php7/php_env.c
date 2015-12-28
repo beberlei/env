@@ -4,40 +4,6 @@
 
 ZEND_DECLARE_MODULE_GLOBALS(env)
 
-static void php_env_hash_init(zval *zv, size_t size) /* {{{ */ {
-	HashTable *ht;
-	PALLOC_HASHTABLE(ht);
-	zend_hash_init(ht, size, NULL, NULL, 1);
-	GC_FLAGS(ht) |= IS_ARRAY_IMMUTABLE;
-	ZVAL_ARR(zv, ht);
-	Z_ADDREF_P(zv);
-	Z_TYPE_FLAGS_P(zv) = IS_TYPE_IMMUTABLE;
-}
-
-static void php_env_hash_destroy(HashTable *ht) /* {{{ */ {
-	zend_string *key;
-	zval *element;
-
-	if (((ht)->u.flags & HASH_FLAG_INITIALIZED)) {
-		ZEND_HASH_FOREACH_STR_KEY_VAL(ht, key, element) {
-			if (key) {
-				free(key);
-			}
-			switch (Z_TYPE_P(element)) {
-				case IS_PTR:
-				case IS_STRING:
-					free(Z_PTR_P(element));
-					break;
-				case IS_ARRAY:
-					php_env_hash_destroy(Z_ARRVAL_P(element));
-					break;
-			}
-		} ZEND_HASH_FOREACH_END();
-		free(HT_GET_DATA_ADDR(ht));
-	}
-	free(ht);
-} /* }}} */
-
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, void *arg) /* {{{ */ {
 
 	if (ENV_G(parse_err)) {
