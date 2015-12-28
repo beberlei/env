@@ -5,7 +5,6 @@
 ZEND_DECLARE_MODULE_GLOBALS(env)
 
 static HashTable *env_container;
-static void php_env_zval_persistent(zval *zv, zval *rv);
 
 #define PALLOC_HASHTABLE(ht)   do {                         \
 (ht) = (HashTable*)pemalloc(sizeof(HashTable), 1);    \
@@ -27,27 +26,26 @@ static void php_env_hash_destroy(HashTable *ht) /* {{{ */ {
 
 static char* php_env_str_persistent(char *str, size_t len) /* {{{ */ {
 	char *key;
-	key = (char*)pemalloc(len, 1);
+	key = (char*)pemalloc(len+1, 1);
 	memcpy(key, str, len);
+	key[len] = '\0';
 	return key;
 }
 
-static void php_env_zval_persistent(zval *zv, zval *rv) /* {{{ */ {
+static zval* php_env_zval_persistent(zval *zv) /* {{{ */ {
+	zval *rv;
+
 	switch (Z_TYPE_P(zv)) {
 		case IS_CONSTANT:
 		case IS_STRING:
-			if (!IS_INTERNED(Z_STRVAL_P(zv))) {
-				rv = (zval*)pemalloc(sizeof(zval), 1);
-				INIT_PZVAL(rv);
-				if ((rv) == NULL) {                                     \
-					zend_error(E_ERROR, "Cannot allocate zval, not enough memory?");  \
-				}
-				Z_TYPE_P(rv) = Z_TYPE_P(zv);
-				Z_STRVAL_P(rv) = pestrdup(Z_STRVAL_P(zv), Z_STRLEN_P(zv));
-				Z_STRLEN_P(rv) = Z_STRLEN_P(zv);
-			} else {
-				rv = zv;
+			rv = (zval*)pemalloc(sizeof(zval), 1);
+			if (rv == NULL) {                                     \
+				zend_error(E_ERROR, "Cannot allocate zval, not enough memory?");  \
 			}
+			INIT_PZVAL(rv);
+			Z_TYPE_P(rv) = Z_TYPE_P(zv);
+			Z_STRVAL_P(rv) = pestrdup(Z_STRVAL_P(zv), Z_STRLEN_P(zv));
+			Z_STRLEN_P(rv) = Z_STRLEN_P(zv);
 			break;
 		case IS_ARRAY:
 		case IS_RESOURCE:
@@ -57,6 +55,8 @@ static void php_env_zval_persistent(zval *zv, zval *rv) /* {{{ */ {
 			ZEND_ASSERT(0);
 			break;
 	}
+
+	return rv;
 } /* }}} */
 
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, HashTable *arg) /* {{{ */ {
@@ -70,9 +70,11 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 		return;
 	}
 
-	if (callback_type == ZEND_INI_PARSER_ENTRY) {
-		php_env_zval_persistent(value, rv);
+	if (callback_type == ZEND_INI_PARSER_ENTRY && Z_TYPE_P(value) == IS_STRING) {
+		rv = php_env_zval_persistent(value);
 		zend_hash_update(arg, php_env_str_persistent(Z_STRVAL_P(key), Z_STRLEN_P(key)), Z_STRLEN_P(key), &rv, sizeof(zval*), NULL);
+	} else {
+		ENV_G(parse_err) = 1;
 	}
 }
 
@@ -107,7 +109,6 @@ int php_env_module_init() {
 char *php_env_concat3(char *str1, size_t str1_len, char *str2, size_t str2_len, char *str3, size_t str3_len) /* {{{ */
 {
 	size_t len = str1_len + str2_len + str3_len;
-	printf("len %d", len);
 	char *res = emalloc(len);
 
 	memcpy(res, str1, str1_len);
@@ -127,9 +128,11 @@ void php_env_request_init() {
 	uint len;
 	ulong idx;
 	int type;
-	zval **element, rv;
+	zval **element;
 
-	return;
+	if (!env_container) {
+		return;
+	}
 
 	for (zend_hash_internal_pointer_reset(env_container);
 			zend_hash_has_more_elements(env_container) == SUCCESS;
@@ -137,10 +140,9 @@ void php_env_request_init() {
 
 		type = zend_hash_get_current_key_ex(env_container, &key, &len, &idx, 0, NULL);
 
-		if (zend_hash_get_current_data(env_container, (void**)&element) == SUCCESS && Z_TYPE_PP(element) == IS_STRING) {
-			/*printf("%s=%s", key, Z_STRVAL_PP(element));
+		if (zend_hash_get_current_data(env_container, (void**)&element) == SUCCESS && element != NULL && Z_TYPE_PP(element) == IS_STRING) {
 			var = php_env_concat_env(key, len, Z_STRVAL_PP(element), Z_STRLEN_PP(element));
-			putenv(var);*/
+			putenv(var);
 		}
 	}
 }
