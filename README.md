@@ -41,6 +41,57 @@ PHP through the CLI or any other SAPI (Apache, FPM) for every request.
 
     env.file=/etc/php5/.env
 
+## Example
+
+With an `env.file=/etc/php5/.env` of the following contents:
+
+    FOO=BAR
+
+You can access the information during a PHP request with:
+
+```php
+<?php
+
+echo getenv('FOO');
+```
+
+## Integration Example: Symfony2
+
+You can integrate this extension into the build process of a Symfony 2 Dependency Injection Container
+in your `AppKernel`:
+
+```php
+<?php
+
+use Symfony\Component\HttpKernel\Kernel;
+
+class AppKernel extends Kernel
+{
+    // other methods...
+
+    protected function getEnvParameters()
+    {
+        $parameters = parent::getEnvParameters();
+
+        $parameters['DATABASE_DSN'] = $this->getenv('DATABASE_DSN');
+
+        return $parameters;
+    }
+
+    private function getenv($name)
+    {
+        $value = getenv($name);
+
+        if ($value === false) {
+            throw new \RuntimeException(sprintf("Cannot build application: %s environment variable is missing.", $name));
+        }
+
+        return $value;
+    }
+}
+```
+
+
 ## Credits
 
 Inspiration and parts of the code are taken from laruences
