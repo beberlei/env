@@ -24,7 +24,7 @@
 extern zend_module_entry env_module_entry;
 #define phpext_env_ptr &env_module_entry
 
-#define PHP_ENV_VERSION "0.1.0" /* Replace with version number for your extension */
+#define PHP_ENV_VERSION "0.1.0"
 
 #ifdef PHP_WIN32
 #	define PHP_ENV_API __declspec(dllexport)
