@@ -46,12 +46,14 @@ PHP_INI_END()
 static void php_env_init_globals(zend_env_globals *env_globals)
 {
 	env_globals->file = NULL;
+	env_globals->parse_err = 0;
 }
 
 /* }}} */
 static void php_env_shutdown_globals(zend_env_globals *env_globals)
 {
 	env_globals->file = NULL;
+	env_globals->parse_err = 0;
 }
 
 /* {{{ PHP_MINIT_FUNCTION
