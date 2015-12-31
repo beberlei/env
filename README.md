@@ -96,3 +96,7 @@ class AppKernel extends Kernel
 
 Inspiration and parts of the code are taken from laruences
 [yaconf](https://pecl.php.net/package/yaconf) extension.
+
+## License
+
+MIT License
