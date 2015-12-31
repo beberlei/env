@@ -49,11 +49,16 @@ static void php_env_init_globals(zend_env_globals *env_globals)
 }
 
 /* }}} */
+static void php_env_shutdown_globals(zend_env_globals *env_globals)
+{
+	env_globals->file = NULL;
+}
 
 /* {{{ PHP_MINIT_FUNCTION
  */
 PHP_MINIT_FUNCTION(env)
 {
+	ZEND_INIT_MODULE_GLOBALS(env, php_env_init_globals, php_env_shutdown_globals);
 	REGISTER_INI_ENTRIES();
 
 	return php_env_module_init(TSRMLS_C);
