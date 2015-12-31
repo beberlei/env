@@ -31,6 +31,7 @@
    <file name="php_env.h" role="src" />
    <file name="env.c" role="src" />
    <file name="README.md" role="doc" />
+   <file name="LICENSE" role="doc" />
    <dir name="php5">
     <file name="php_env.c" role="src" />
    </dir>
