@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.7" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd"> 
+ <name>env</name>
+ <channel>pecl.php.net</channel>
+ <summary>Load environment variables into PHP from a global configuration file</summary>
+ <description>Based on 12Factor Application rules this extension allows you to load environment variables into every PHP request, in every SAPI using a global configuration file with key value pairs of environment variables.</description>
+ <lead>
+  <name>Benjamin Eberlei</name>
+  <user>beberlei</user>
+  <email>beberlei@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2015-12-31</date>
+ <time>15:40:00</time>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="https://opensource.org/licenses/MIT">MIT</license>
+ <notes>
+     - First release
+ </notes>
+ <contents> 
+  <dir name="/"> 
+   <file name="config.m4"    role="src" />
+   <file name="env.h" role="src" />
+   <file name="php_env.h" role="src" />
+   <file name="env.c" role="src" />
+   <file name="README.md" role="doc" />
+   <dir name="php5">
+    <file name="php_env.c" role="src" />
+   </dir>
+   <dir name="php7">
+    <file name="php_env.c" role="src" />
+   </dir>
+   <dir name="tests">
+    <file name="001.phpt" role="test" />
+    <file name="002.phpt" role="test" />
+    <file name="003.phpt" role="test" />
+    <file name="002.ini" role="test" />
+    <file name="003.ini" role="test" />
+   </dir>
+  </dir> 
+ </contents> 
+ <dependencies> 
+  <required> 
+   <php> 
+    <min>5.5.0</min> 
+   </php> 
+   <pearinstaller> 
+    <min>1.4.0</min> 
+   </pearinstaller> 
+  </required> 
+ </dependencies> 
+ <providesextension>env</providesextension>
+ <extsrcrelease />
+ <changelog> 
+  <release> 
+   <date>2015-12-31</date> 
+   <version> 
+    <release>0.1.0</release> 
+    <api>0.1.0</api> 
+   </version> 
+   <stability> 
+    <release>beta</release> 
+    <api>beta</api> 
+   </stability> 
+   <license uri="https://opensource.org/licenses/MIT">MIT</license>
+   <notes>
+    - Initial release
+   </notes> 
+  </release> 
+ </changelog> 
+</package> 
+<!--
+vim:et:ts=1:sw=1
+--> 
