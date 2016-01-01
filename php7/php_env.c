@@ -22,7 +22,7 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 }
 
-void php_env_module_init(HashTable *vars TSRMLS_DC);
+void php_env_module_init(HashTable *vars TSRMLS_DC) {
 	int ndir = 255;
 	uint32_t i;
 	unsigned char c;
