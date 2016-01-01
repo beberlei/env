@@ -1,10 +1,10 @@
 --TEST--
-env: Load complex INI file errors (PHP 7)
+env: Load complex INI file errors
 --SKIPIF--
-<?php if (!extension_loaded("env") || PHP_VERSION_ID < 70000) print "skip"; ?>
+<?php if (!extension_loaded("env")) print "skip"; ?>
 --INI--
 env.file={PWD}/003.ini
 --FILE--
 <?php
 --EXPECTF--
-Warning: env: parsing '%s/tests/003.ini' failed in Unknown on line 0
+%AWarning: env: parsing '%s/tests/003.ini' failed in Unknown on line 0
