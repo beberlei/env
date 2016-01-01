@@ -16,7 +16,7 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 
 	if (callback_type == ZEND_INI_PARSER_ENTRY) {
-		zend_symtable_str_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key), &value, sizeof(zval*), NULL);
+		zend_symtable_str_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key), value);
 	} else if (callback_type == ZEND_INI_PARSER_SECTION || callback_type == ZEND_INI_PARSER_POP_ENTRY) {
 		ENV_G(parse_err) = 1;
 	}
