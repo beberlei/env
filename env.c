@@ -61,7 +61,7 @@ static void php_env_init_globals(zend_env_globals *env_globals)
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
 	env_globals->vars = (HashTable*)pemalloc(sizeof(HashTable), 1);
-	zend_hash_init(env_globals->vars, 128, NULL, char_ptr_dtor, 1);
+	zend_hash_init(env_globals->vars, 128, NULL, (dtor_func_t)char_ptr_dtor, 1);
 }
 
 /* }}} */
