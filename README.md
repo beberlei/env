@@ -21,7 +21,7 @@ Working SAPIs:
 - Apache2
 - PHP Builtin Server
 
-*Untested* SAPIs:
+**Not Working** SAPIs:
 
 - PHP-FPM
 
