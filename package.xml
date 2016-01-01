@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.7" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd"> 
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.7" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>env</name>
  <channel>pecl.php.net</channel>
  <summary>Load environment variables into PHP from a global configuration file</summary>
@@ -13,8 +13,8 @@
  <date>2016-01-01</date>
  <time>15:55:00</time>
  <version>
-  <release>0.2.0</release>
-  <api>0.2.0</api>
+  <release>0.2.1</release>
+  <api>0.2.1</api>
  </version>
  <stability>
   <release>beta</release>
@@ -22,10 +22,10 @@
  </stability>
  <license uri="https://opensource.org/licenses/MIT">MIT</license>
  <notes>
-     - Reset env variables before every RINIT to allow usage in PHP-FPM
+    - Fixed invalid read
  </notes>
- <contents> 
-  <dir name="/"> 
+ <contents>
+  <dir name="/">
    <file name="config.m4"    role="src" />
    <file name="env.h" role="src" />
    <file name="php_env.h" role="src" />
@@ -45,53 +45,68 @@
     <file name="002.ini" role="test" />
     <file name="003.ini" role="test" />
    </dir>
-  </dir> 
- </contents> 
- <dependencies> 
-  <required> 
-   <php> 
-    <min>5.5.0</min> 
-   </php> 
-   <pearinstaller> 
-    <min>1.4.0</min> 
-   </pearinstaller> 
-  </required> 
- </dependencies> 
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.5.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
  <providesextension>env</providesextension>
  <extsrcrelease />
- <changelog> 
-  <release> 
-   <date>2016-01-01</date> 
-   <version> 
-    <release>0.2.0</release> 
-    <api>0.2.0</api> 
-   </version> 
-   <stability> 
-    <release>beta</release> 
-    <api>beta</api> 
-   </stability> 
+ <changelog>
+  <release>
+   <date>2016-01-01</date>
+   <version>
+    <release>0.2.1</release>
+    <api>0.2.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <license uri="https://opensource.org/licenses/MIT">MIT</license>
+   <notes>
+    - Fixed invalid read
+   </notes>
+  </release>
+  <release>
+   <date>2016-01-01</date>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
    <license uri="https://opensource.org/licenses/MIT">MIT</license>
    <notes>
     - Reset env variables before every RINIT to allow usage in PHP-FPM
-   </notes> 
-  </release> 
-  <release> 
-   <date>2015-12-31</date> 
-   <version> 
-    <release>0.1.0</release> 
-    <api>0.1.0</api> 
-   </version> 
-   <stability> 
-    <release>beta</release> 
-    <api>beta</api> 
-   </stability> 
+   </notes>
+  </release>
+  <release>
+   <date>2015-12-31</date>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
    <license uri="https://opensource.org/licenses/MIT">MIT</license>
    <notes>
     - Initial release
-   </notes> 
-  </release> 
- </changelog> 
-</package> 
+   </notes>
+  </release>
+ </changelog>
+</package>
 <!--
 vim:et:ts=1:sw=1
---> 
+-->
