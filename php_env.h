@@ -39,6 +39,7 @@ extern zend_module_entry env_module_entry;
 #endif
 
 ZEND_BEGIN_MODULE_GLOBALS(env)
+	HashTable *vars;
 	char *file;
 	int parse_err;
 ZEND_END_MODULE_GLOBALS(env)

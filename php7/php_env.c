@@ -5,6 +5,7 @@
 ZEND_DECLARE_MODULE_GLOBALS(env)
 
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, void *arg) /* {{{ */ {
+	HashTable *ht = (HashTable*)arg;
 
 	if (ENV_G(parse_err)) {
 		return;
@@ -15,13 +16,13 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 
 	if (callback_type == ZEND_INI_PARSER_ENTRY) {
-		setenv(Z_STRVAL_P(key), Z_STRVAL_P(value), 1);
+		zend_symtable_str_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key), &value, sizeof(zval*), NULL);
 	} else if (callback_type == ZEND_INI_PARSER_SECTION || callback_type == ZEND_INI_PARSER_POP_ENTRY) {
 		ENV_G(parse_err) = 1;
 	}
 }
 
-int php_env_module_init(TSRMLS_D) {
+void php_env_module_init(HashTable *vars TSRMLS_DC);
 	int ndir = 255;
 	uint32_t i;
 	unsigned char c;
@@ -35,18 +36,28 @@ int php_env_module_init(TSRMLS_D) {
 				fh.type = ZEND_HANDLE_FP;
 
 				if (zend_parse_ini_file(&fh, 0, 0 /* ZEND_INI_SCANNER_NORMAL */,
-							php_env_ini_parser_cb, NULL) == FAILURE || ENV_G(parse_err)) {
+							php_env_ini_parser_cb, vars) == FAILURE || ENV_G(parse_err)) {
 					if (ENV_G(parse_err)) {
 						php_error(E_WARNING, "env: parsing '%s' failed", ENV_G(file));
 					}
 
 					ENV_G(parse_err) = 0;
-
-					return SUCCESS;
 				}
 			}
 		}
 	}
+}
 
-	return SUCCESS;
+void php_env_request_init(HashTable *vars TSRMLS_DC)
+{
+	zend_string *str;
+	uint   len;
+	ulong  idx;
+	zval *val;
+
+	ZEND_HASH_FOREACH_KEY_VAL(vars, idx, str, val) {
+		if (str) {
+			setenv(ZSTR_VAL(str), Z_STRVAL_P(val), 1);
+		}
+	} ZEND_HASH_FOREACH_END();
 }

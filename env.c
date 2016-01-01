@@ -41,12 +41,19 @@ PHP_INI_END()
 /* }}} */
 
 
+void char_ptr_dtor(char **str)
+{
+	free(*str);
+}
+
 /* {{{ php_env_init_globals
  */
 static void php_env_init_globals(zend_env_globals *env_globals)
 {
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
+	env_globals->vars = (HashTable*)pemalloc(sizeof(HashTable), 1);
+	zend_hash_init(env_globals->vars, 128, NULL, char_ptr_dtor, 1);
 }
 
 /* }}} */
@@ -54,6 +61,7 @@ static void php_env_shutdown_globals(zend_env_globals *env_globals)
 {
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
+	free(env_globals->vars);
 }
 
 /* {{{ PHP_MINIT_FUNCTION
@@ -63,7 +71,9 @@ PHP_MINIT_FUNCTION(env)
 	ZEND_INIT_MODULE_GLOBALS(env, php_env_init_globals, php_env_shutdown_globals);
 	REGISTER_INI_ENTRIES();
 
-	return php_env_module_init(TSRMLS_C);
+	php_env_module_init(ENV_G(vars) TSRMLS_CC);
+
+	return SUCCESS;
 }
 /* }}} */
 
@@ -82,6 +92,8 @@ PHP_MSHUTDOWN_FUNCTION(env)
  */
 PHP_RINIT_FUNCTION(env)
 {
+	php_env_request_init(ENV_G(vars) TSRMLS_CC);
+
 	return SUCCESS;
 }
 /* }}} */
