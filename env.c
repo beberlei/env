@@ -54,18 +54,20 @@ void char_ptr_dtor(zval **str)
 }
 #endif
 
-/* {{{ php_env_init_globals
+/* {{{ PHP_GINIT_FUNCTION
  */
-static void php_env_init_globals(zend_env_globals *env_globals)
+PHP_GINIT_FUNCTION(env)
 {
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
 	env_globals->vars = (HashTable*)pemalloc(sizeof(HashTable), 1);
 	zend_hash_init(env_globals->vars, 128, NULL, char_ptr_dtor, 1);
 }
-
 /* }}} */
-static void php_env_shutdown_globals(zend_env_globals *env_globals)
+
+/* {{{ PHP_GSHUTDOWN_FUNCTION
+ */
+PHP_GSHUTDOWN_FUNCTION(env)
 {
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
@@ -77,7 +79,6 @@ static void php_env_shutdown_globals(zend_env_globals *env_globals)
  */
 PHP_MINIT_FUNCTION(env)
 {
-	ZEND_INIT_MODULE_GLOBALS(env, php_env_init_globals, php_env_shutdown_globals);
 	REGISTER_INI_ENTRIES();
 
 	php_env_module_init(ENV_G(vars) TSRMLS_CC);
@@ -149,7 +150,11 @@ zend_module_entry env_module_entry = {
 	PHP_RSHUTDOWN(env),	/* Replace with NULL if there's nothing to do at request end */
 	PHP_MINFO(env),
 	PHP_ENV_VERSION,
-	STANDARD_MODULE_PROPERTIES
+	PHP_MODULE_GLOBALS(env),   /* globals descriptor */
+	PHP_GINIT(env),            /* globals ctor */
+	PHP_GSHUTDOWN(env),        /* globals dtor */
+	NULL,                      /* post deactivate */
+	STANDARD_MODULE_PROPERTIES_EX
 };
 /* }}} */
 
