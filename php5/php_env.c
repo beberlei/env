@@ -61,7 +61,13 @@ void php_env_request_init(HashTable *vars TSRMLS_DC)
 		type = zend_hash_get_current_key_ex(vars, &str, &len, &idx, 0, NULL);
 		if (type == HASH_KEY_IS_STRING) {
 			if ((zend_hash_get_current_data(vars, (void**)&data) == SUCCESS)) {
+                            if (str[len]) { /* Workaroung php 5.5 / ZTS / i386 issue */
+				char *tmp = estrndup(str, len);
+				setenv(tmp, *data, 1);
+				efree(tmp);
+                            } else {
 				setenv(str, *data, 1);
+                            }
 			}
 		}
 	}
