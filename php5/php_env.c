@@ -4,6 +4,14 @@
 
 ZEND_DECLARE_MODULE_GLOBALS(env)
 
+static void php_env_init_globals(zend_env_globals *env_globals)
+{
+	env_globals->file = NULL;
+	env_globals->parse_err = 0;
+	env_globals->vars = (HashTable*)pemalloc(sizeof(HashTable), 1);
+	zend_hash_init(env_globals->vars, 128, NULL, char_ptr_dtor, 1);
+}
+
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, HashTable *arg) /* {{{ */ {
 	zval *rv;
 	char *str;

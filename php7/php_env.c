@@ -4,8 +4,17 @@
 
 ZEND_DECLARE_MODULE_GLOBALS(env)
 
+static void php_env_init_globals(zend_env_globals *env_globals)
+{
+	env_globals->file = NULL;
+	env_globals->parse_err = 0;
+	env_globals->vars = (HashTable*)pemalloc(sizeof(HashTable), 1);
+	zend_hash_init(env_globals->vars, 128, NULL, ZVAL_PTR_DTOR, 1);
+}
+
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, void *arg) /* {{{ */ {
 	HashTable *ht = (HashTable*)arg;
+	char *str;
 
 	if (ENV_G(parse_err)) {
 		return;
@@ -16,7 +25,8 @@ static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callb
 	}
 
 	if (callback_type == ZEND_INI_PARSER_ENTRY) {
-		zend_symtable_str_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key), value);
+		str = strndup(Z_STRVAL_P(value), Z_STRLEN_P(value));
+		zend_hash_update_mem(ht, Z_STR_P(key), str, sizeof(char*));
 	} else if (callback_type == ZEND_INI_PARSER_SECTION || callback_type == ZEND_INI_PARSER_POP_ENTRY) {
 		ENV_G(parse_err) = 1;
 	}
@@ -57,7 +67,7 @@ void php_env_request_init(HashTable *vars TSRMLS_DC)
 
 	ZEND_HASH_FOREACH_KEY_VAL(vars, idx, str, val) {
 		if (str) {
-			setenv(ZSTR_VAL(str), Z_STRVAL_P(val), 1);
+			setenv(ZSTR_VAL(str), Z_PTR_P(val), 1);
 		}
 	} ZEND_HASH_FOREACH_END();
 }
