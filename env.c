@@ -47,7 +47,11 @@ void char_ptr_dtor(char **str)
 	free(*str);
 }
 #else
-#define char_ptr_dtor ZVAL_PTR_DTOR
+void char_ptr_dtor(zval **str)
+{
+	free(Z_STRVAL_PP(str));
+	free(*str);
+}
 #endif
 
 /* {{{ php_env_init_globals
@@ -65,6 +69,7 @@ static void php_env_shutdown_globals(zend_env_globals *env_globals)
 {
 	env_globals->file = NULL;
 	env_globals->parse_err = 0;
+	zend_hash_destroy(env_globals->vars);
 	free(env_globals->vars);
 }
 
