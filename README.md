@@ -15,14 +15,11 @@ servers environment variables using `setenv`.
 **EXPERIMENTAL** This extension is not tested in production yet. It currently
 works with PHP 5.5, 5.6 and PHP 7 on Non-ZTS builds of PHP.
 
-Working SAPIs:
+**Working and tested SAPIs:**
 
 - CLI
 - Apache2
 - PHP Builtin Server
-
-**Not Working** SAPIs:
-
 - PHP-FPM
 
 ## Installation
