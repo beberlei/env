@@ -10,11 +10,11 @@
   <email>beberlei@php.net</email>
   <active>yes</active>
  </lead>
- <date>2015-12-31</date>
- <time>15:40:00</time>
+ <date>2016-01-01</date>
+ <time>15:55:00</time>
  <version>
-  <release>0.1.0</release>
-  <api>0.1.0</api>
+  <release>0.2.0</release>
+  <api>0.2.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -22,7 +22,7 @@
  </stability>
  <license uri="https://opensource.org/licenses/MIT">MIT</license>
  <notes>
-     - First release
+     - Reset env variables before every RINIT to allow usage in PHP-FPM
  </notes>
  <contents> 
   <dir name="/"> 
@@ -60,6 +60,21 @@
  <providesextension>env</providesextension>
  <extsrcrelease />
  <changelog> 
+  <release> 
+   <date>2016-01-01</date> 
+   <version> 
+    <release>0.2.0</release> 
+    <api>0.2.0</api> 
+   </version> 
+   <stability> 
+    <release>beta</release> 
+    <api>beta</api> 
+   </stability> 
+   <license uri="https://opensource.org/licenses/MIT">MIT</license>
+   <notes>
+    - Reset env variables before every RINIT to allow usage in PHP-FPM
+   </notes> 
+  </release> 
   <release> 
    <date>2015-12-31</date> 
    <version> 
