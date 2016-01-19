@@ -41,18 +41,10 @@ PHP_INI_END()
 /* }}} */
 
 
-#if PHP_VERSION_ID < 70000
 void char_ptr_dtor(char **str)
 {
 	free(*str);
 }
-#else
-void char_ptr_dtor(zval **str)
-{
-	free(Z_STRVAL_PP(str));
-	free(*str);
-}
-#endif
 
 /* {{{ PHP_GINIT_FUNCTION
  */
