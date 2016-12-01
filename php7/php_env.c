@@ -37,7 +37,7 @@ void php_env_module_init(HashTable *vars TSRMLS_DC) {
 				fh.filename = ENV_G(file);
 				fh.type = ZEND_HANDLE_FP;
 
-				if (zend_parse_ini_file(&fh, 0, 0 /* ZEND_INI_SCANNER_NORMAL */,
+				if (zend_parse_ini_file(&fh, 1, 0 /* ZEND_INI_SCANNER_NORMAL */,
 							php_env_ini_parser_cb, vars) == FAILURE || ENV_G(parse_err)) {
 					if (ENV_G(parse_err)) {
 						php_error(E_WARNING, "env: parsing '%s' failed", ENV_G(file));
