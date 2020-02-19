@@ -2,8 +2,6 @@
 #include "../php_env.h"
 #include "../env.h"
 
-ZEND_DECLARE_MODULE_GLOBALS(env)
-
 static void php_env_ini_parser_cb(zval *key, zval *value, zval *index, int callback_type, HashTable *ht) /* {{{ */ {
 	zval *rv;
 	char *str;

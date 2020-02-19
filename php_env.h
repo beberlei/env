@@ -44,6 +44,8 @@ ZEND_BEGIN_MODULE_GLOBALS(env)
 	int parse_err;
 ZEND_END_MODULE_GLOBALS(env)
 
+ZEND_EXTERN_MODULE_GLOBALS(env)
+
 #ifdef ZTS
 #define ENV_G(v) TSRMG(env_globals_id, zend_env_globals *, v)
 #else
